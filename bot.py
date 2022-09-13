@@ -1,3 +1,8 @@
+'''
+Author's Will Bond & Chris Snyder
+'''
+
+
 import os
 import discord
 
@@ -37,7 +42,7 @@ async def on_message(message):
                 dice = params[2]
                 dice = dice.replace('d', '')
                 result = pf.roll(int(dice))
-                
+
                 # Send the message
                 await message.channel.send(f'You rolled: {result}')
 
