@@ -1,8 +1,6 @@
 '''
 Author's Will Bond & Chris Snyder
 '''
-
-
 import os
 import discord
 
