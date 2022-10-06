@@ -57,10 +57,10 @@ async def on_message(message):
 
             
             except AttributeError:
-                result = "Sorry, that is not something I know how to
-                            do! If you think that is somthing that I
-                            should be able to do check your promt, and
-                            if your prompt has no errors then please
+                result = "Sorry, that is not something I know how to \
+                            do! If you think that is somthing that I \
+                            should be able to do check your promt, and \
+                            if your prompt has no errors then please \
                             inform the creators!"
             # pass the result back as the function dictates
             await message.channel.send(result)
@@ -69,24 +69,6 @@ async def on_message(message):
         else:
             raw_text = message.content.lower()
              
-'''
-        elif params[1] == 'roll':
-            if params[2].startswith('d'):
-                dice = params[2]
-                dice = dice.replace('d', '')
-                result = pf.roll(int(dice))
-
-                # Send the message
-                await message.channel.send(f'You rolled: {result}')
-
-            else:
-                print(f'{params[2]} is not a valid roll option. Please\
-                         format your parameter as:\n\
-                         ```pibot roll d<number_of_sides>```')
-
-    if message.content.lower() == "harry sucks":
-        await message.channel.send(pf.harry_sucks())
-'''
 TOKEN = os.getenv('TOKEN')
 
 client.run(TOKEN)
