@@ -1,8 +1,6 @@
 '''
 Author's Will Bond & Chris Snyder
 '''
-
-
 import os
 import discord
 
@@ -31,12 +29,47 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.lower().startswith('pibot'):
+    if message.content.lower().startswith("pibot"):
+        # Get the parameters from the string passed to the bot
         params = pf.parse_content(message.content.lower())
-
-        if len(params) == 1:
+        
+        # Get the first word to see if it contains the pibot call
+        call = params[0]
+        
+        # if pibot is called with no function
+        if len(params) == 1 and params[0] == "pibot":
             await message.channel.send(pf.HELP_STRING)
+        
+        # if pibot is called with a function
+        elif len(params) > 1 and params[0] == "pibot":
+        
+            # Get the function name which was called by the bot
+            func_str = params[1]
+            
+            # Try to get a function with that name from pifunc.py
+            try:
+                function = getattr(pf, func_str)
+                
+            
+                # pass the function the list of parameters and get the
+                # result of the operation
+                result = function(params)
 
+            
+            except AttributeError:
+                result = "Sorry, that is not something I know how to
+                            do! If you think that is somthing that I
+                            should be able to do check your promt, and
+                            if your prompt has no errors then please
+                            inform the creators!"
+            # pass the result back as the function dictates
+            await message.channel.send(result)
+        
+        # the parameter was not not pibot (this is probably just a normal message)
+        else:
+            raw_text = message.content.lower()
+             
+'''
         elif params[1] == 'roll':
             if params[2].startswith('d'):
                 dice = params[2]
@@ -53,7 +86,7 @@ async def on_message(message):
 
     if message.content.lower() == "harry sucks":
         await message.channel.send(pf.harry_sucks())
-
+'''
 TOKEN = os.getenv('TOKEN')
 
 client.run(TOKEN)

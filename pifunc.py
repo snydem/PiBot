@@ -18,6 +18,7 @@ def parse_content(message_content):
 def harry_sucks():
     return "based take homie"
 
-def roll(bound):
+def roll(params):
+    bound = params[2]
     num = random.randint(1, bound)
     return num
