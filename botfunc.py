@@ -11,6 +11,8 @@ functions are limited. My general command structure looks as follows:\n\
 ```pibot <comand> <parameters>```\n\
 If you would like a list of my commands type ```pibot help```"
 
+
+
 def parse_content(message_content):
     parameters = message_content.split(' ')
     return parameters
@@ -19,6 +21,19 @@ def harry_sucks():
     return "based take homie"
 
 def roll(params):
-    bound = params[2]
+    '''Function which takes the parameters of a roll command and rolls
+    the number of dice defined by the user accordingly. returns a tuple
+    formatted as ([each individual roll], sum of rolls)''' 
+    # get roll as a string
+    roll_string = params[2:]
+    
+    
+    dice = []    
+    
+    for roll in roll_string:
+        if 'd' in roll and len(roll) >= 3:
+            
+        elif 'd' in roll and len(roll) >= 2:
+    
     num = random.randint(1, bound)
     return num

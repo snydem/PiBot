@@ -5,7 +5,7 @@ import os
 import discord
 
 # import custom botfunctions
-import pifunc as pf
+import botfunc as bf
 
 from dotenv import load_dotenv
 
@@ -31,14 +31,14 @@ async def on_message(message):
 
     if message.content.lower().startswith("pibot"):
         # Get the parameters from the string passed to the bot
-        params = pf.parse_content(message.content.lower())
+        params = bf.parse_content(message.content.lower())
         
         # Get the first word to see if it contains the pibot call
         call = params[0]
         
         # if pibot is called with no function
         if len(params) == 1 and params[0] == "pibot":
-            await message.channel.send(pf.HELP_STRING)
+            await message.channel.send(bf.HELP_STRING)
         
         # if pibot is called with a function
         elif len(params) > 1 and params[0] == "pibot":
@@ -48,7 +48,7 @@ async def on_message(message):
             
             # Try to get a function with that name from pifunc.py
             try:
-                function = getattr(pf, func_str)
+                function = getattr(bf, func_str)
                 
             
                 # pass the function the list of parameters and get the
