@@ -9,6 +9,7 @@ import botfunc as bf
 
 from dotenv import load_dotenv
 
+
 #load env vars from .env
 load_dotenv()
 
@@ -67,6 +68,7 @@ async def on_message(message):
         
         # the parameter was not not pibot (this is probably just a normal message)
         else:
+
             raw_text = message.content.lower()
              
 TOKEN = os.getenv('TOKEN')
