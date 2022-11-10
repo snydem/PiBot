@@ -5,14 +5,17 @@ suggest making a function here and then adding the key word event to
 the bot.py file """
 
 import random
-import base64
+import base64 as b64
  
-HELP_STRING = "Hi! I'm PiBot! I can do a variety of things, though my\
-functions are limited. My general command structure looks as follows:\n\
-```pibot <comand> <parameters>```\n\
-If you would like a list of my commands type ```pibot help```"
+HELP_STRING = "Hi! I'm PiBot! I can do a variety of things, though my"\
+"functions are limited. My general command structure is:\n"\
+"```pibot <comand> <parameters>```\n"\
+"If you would like a list of my commands type ```pibot help```"
 
-
+UNRECOGNIZED_FUNCTION = "Sorry, I don't recognize that function!"\
+"If you think that is something that I should know how to do, please"\
+"reach out to the server moderators or admins and either request a"\
+"fix or new feature!"
 
 def parse_content(message_content):
     parameters = message_content.split(' ')
@@ -20,6 +23,7 @@ def parse_content(message_content):
 
 def harry_sucks():
     return "based take homie"
+
 
 
 def roll(params):
@@ -33,16 +37,45 @@ def roll(params):
     dice = []    
     
     for roll in roll_string:
+
         if 'd' in roll and len(roll) >= 3:
-            
+            bound = int(roll[2:])
         elif 'd' in roll and len(roll) >= 2:
-    
+            bound = int(roll[1:])
+        else:
+            bound = int(roll)
+
     num = random.randint(1, bound)
     return num
 
-def base64_encode(params):
+def base64(params):
     '''Function which takes a string and base64 encodes it. Useful for
     quick little string functions and silly utility I guess'''
-    raw_text = " ".join(params[2:])
-    return base64.base64encode(raw_text)
+    
+    # Decide if you are encoding or decoding
+    encode_flag = None
+    if params[2].lower() == "encode":
+        encode_flag = True
+    elif params[2].lower() == "decode":
+        encode_flag = False
+    else:
+        return "USSAGE ERROR: Pibot base64 <encode/decode> <text>"
+    
+    # Get the raw text
+    raw_text = " ".join(params[3:])
+
+    # if encode
+    if encode_flag:
+        message_bytes = raw_text.encode('ascii')
+        base64_bytes = b64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        return base64_message
+    
+    # if decode
+    else:
+        base64_bytes = raw_text.encode('ascii')
+        message_bytes = b64.b64decode(base64_bytes)
+        message_text = message_bytes.decode('ascii')
+        return message_text
+
 
