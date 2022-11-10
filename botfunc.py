@@ -6,7 +6,10 @@ the bot.py file """
 
 import random
 import base64 as b64
- 
+import ast
+import operator as op
+from simpleeval import simple_eval
+
 HELP_STRING = "Hi! I'm PiBot! I can do a variety of things, though my"\
 "functions are limited. My general command structure is:\n"\
 "```pibot <comand> <parameters>```\n"\
@@ -28,25 +31,66 @@ def harry_sucks():
 
 def roll(params):
     '''Function which takes the parameters of a roll command and rolls
-    the number of dice defined by the user accordingly. returns a tuple
-    formatted as ([each individual roll], sum of rolls)''' 
-    # get roll as a string
-    roll_string = params[2:]
+    the number of dice defined by the user accordingly. return message
+    formatted as [each individual roll] \n sum of rolls''' 
     
-    
-    dice = []    
-    
-    for roll in roll_string:
+    def _dice_string_parser(roll_list:list):
+        '''Function created with the purpose of parsing a dice string
+        into a format which is easier to work with.'''
+        
+        # list of operations that we will allow on dice rolls
+        operators = ['+', '-']
 
-        if 'd' in roll and len(roll) >= 3:
-            bound = int(roll[2:])
-        elif 'd' in roll and len(roll) >= 2:
-            bound = int(roll[1:])
+        dice_list = []
+        operations = []
+
+        for item in roll_list:
+            # e.g. "Pibot roll 1d20"
+            if ('d' != item[0]) and 'd' in item and len(item) >= 3:
+                dice_num = int(item[0])
+                for i in range(dice_num):
+                    dice_list.append(int(item[2:]))
+                    if i != (dice_num - 1):
+                        operations.append('+')
+            
+            # e.g. "Pibot roll d20"
+            elif ('d' == item[0]) and 'd' in item and len(item) >= 2:
+                dice_list.append(int(item[1:]))
+            
+            # e.g. "Pibot roll 20" or it is an operator
+            elif 'd' not in item:
+                if item in operators:
+                    operations.append(item)
+                else:
+                    dice_list.append(int(item))
+        
+        if (len(dice_list) - len(operations)) != 1:
+            raise Exception("Invalid rolls and operations combo.")
         else:
-            bound = int(roll)
-    # roll the bound post string parsing
-    num = random.randint(1, bound)
-    return num
+            return (dice_list, operations)
+
+    # get roll as a string
+    roll_list = params[2:]
+    
+    dice_list, operations_list = _dice_string_parser(roll_list)
+    roll_string = ""
+
+    for index in range(len(dice_list)):
+        bound = dice_list[index]
+        # roll the bound post string parsing
+        num = random.randint(1, bound)
+        roll_string += str(num)
+        # if we are not on the last dice roll
+        if index != (len(operations_list)):
+            roll_string += str(operations_list[index])
+
+    # execute the operation of the roll string
+    roll_sum = simple_eval(roll_string)
+
+    message = f"Your rolls were: {roll_string}\nTotal: {roll_sum}"
+    
+    return message
+
 
 def base64(params):
     '''Function which takes a string and base64 encodes it. Useful for
@@ -76,7 +120,3 @@ def base64(params):
     else:
        raise TypeError("USAGE ERROR: Pibot base64 <encode/decode> "\
                "<message>")
-
-        
->>>>>>> 67500e3cb6ecb555ecaa51b24a847eb126c96614
-

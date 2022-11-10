@@ -62,8 +62,8 @@ async def on_message(message):
                             if your prompt has no errors then please \
                             inform the creators!"
 
-            except TypeError:
-                result = "Incorrect parameter passed!"
+            #except TypeError:
+                #result = "Incorrect parameter passed!"
 
             # pass the result back as the function dictates
             await message.channel.send(result)
