@@ -52,34 +52,10 @@ def base64(params):
     '''Function which takes a string and base64 encodes it. Useful for
     quick little string functions and silly utility I guess'''
     
-<<<<<<< HEAD
-    # Decide if you are encoding or decoding
-    encode_flag = None
-    if params[2].lower() == "encode":
-        encode_flag = True
-    elif params[2].lower() == "decode":
-        encode_flag = False
-    else:
-        return "USSAGE ERROR: Pibot base64 <encode/decode> <text>"
-    
     # Get the raw text
     raw_text = " ".join(params[3:])
 
-    # if encode
-    if encode_flag:
-        message_bytes = raw_text.encode('ascii')
-        base64_bytes = b64.b64encode(message_bytes)
-        base64_message = base64_bytes.decode('ascii')
-        return base64_message
-    
-    # if decode
-    else:
-        base64_bytes = raw_text.encode('ascii')
-        message_bytes = b64.b64decode(base64_bytes)
-        message_text = message_bytes.decode('ascii')
-        return message_text
 
-=======
     # encode the text
     if params[2].lower() == "encode":
         input_string = " ".join(params[3:])
