@@ -44,7 +44,7 @@ def roll(params):
             bound = int(roll[1:])
         else:
             bound = int(roll)
-
+    # roll the bound post string parsing
     num = random.randint(1, bound)
     return num
 
@@ -52,6 +52,7 @@ def base64(params):
     '''Function which takes a string and base64 encodes it. Useful for
     quick little string functions and silly utility I guess'''
     
+<<<<<<< HEAD
     # Decide if you are encoding or decoding
     encode_flag = None
     if params[2].lower() == "encode":
@@ -78,4 +79,28 @@ def base64(params):
         message_text = message_bytes.decode('ascii')
         return message_text
 
+=======
+    # encode the text
+    if params[2].lower() == "encode":
+        input_string = " ".join(params[3:])
+        message_bytes = input_string.encode("ascii")
+        base64_bytes = b64.b64encode(message_bytes)
+        base64_string = base64_bytes.decode("ascii")
+        return base64_string
+    # decode the text
+    elif params[2].lower() == "decode":
+        base64_string = " ".join(params[3:])
+        '''base64_bytes = base64_string.encode("ascii")
+        message_bytes = b64.b64decode(base64_bytes)
+        message = message_bytes.decode("ascii")'''
+        message = b64.b64decode(base64_string)
+        message = message.decode("ascii", "ignore")
+        return message
+
+    else:
+       raise TypeError("USAGE ERROR: Pibot base64 <encode/decode> "\
+               "<message>")
+
+        
+>>>>>>> 67500e3cb6ecb555ecaa51b24a847eb126c96614
 

@@ -56,8 +56,15 @@ async def on_message(message):
 
             
             except AttributeError:
-                result = botfunc.UNRECOGNIZED_FUNCTION
-            
+                result = "Sorry, that is not something I know how to \
+                            do! If you think that is somthing that I \
+                            should be able to do check your promt, and \
+                            if your prompt has no errors then please \
+                            inform the creators!"
+
+            except TypeError:
+                result = "Incorrect parameter passed!"
+
             # pass the result back as the function dictates
             await message.channel.send(result)
         
